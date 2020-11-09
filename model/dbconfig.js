@@ -1,0 +1,20 @@
+module.exports = {
+  connectString: 'localhost:1521/XE',
+  user: 'nodeshop',
+  password: 'tiger'
+}
+
+/*
+      CREATE TABLE NODE_MEMBER
+  (
+    NUM NUMBER(8) PRIMARY KEY,
+    NAME VARCHAR2(30) NOT NULL,
+    USERID VARCHAR2(20) UNIQUE NOT NULL,
+    PWD VARCHAR2(20) NOT NULL,
+    EMAIL VARCHAR2(200),
+    INDATE DATE DEFAULT SYSDATE
+  );
+
+  CREATE SEQUENCE NODE_MEMBER_SEQ
+  NOCACHE;
+*/

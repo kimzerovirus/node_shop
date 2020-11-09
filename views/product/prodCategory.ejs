@@ -1,0 +1,60 @@
+<%- include ('../top')%>
+<%- include ('../nav')%>
+
+<section class="content">
+    <section class="product-section">
+        <div class="container">
+            <h2 class="sec-tit">Category /
+                <%if(prodData[0][1]==0){%>
+                Outer
+                <%}else if(prodData[0][1]==1){%>
+                Top
+                <%}else if(prodData[0][1]==2){%>
+                Bottom
+                <%}else if(prodData[0][1]==0){%>
+                Outer
+                <%}else if(prodData[0][1]==3){%>
+                OnePiece
+                <%}else if(prodData[0][1]==4){%>
+                Acc
+                <%}else if(prodData[0][1]==5){%>
+                Shoes
+                <%}%>
+            </h2>
+            <hr class="divider" />
+            <ul class="product-list clfix">
+                <%if(prodData==null){
+                %>
+                <h1>상품이 없습니다.</h1>
+                <%
+            }else{
+                for(var i=0;i<prodData.length;i++){%>
+                <li><a href="/product/<%=prodData[i][0]%>"><img src="/images/products/<%=prodData[i][3]%>"
+                            alt="<%=prodData[i][9]%>"></a>
+                    <h3 class="prod_tit"><%=prodData[i][2]%></h3><span class="prod_price"
+                        id="prod<%=i%>"></span><br><br><br>
+                </li>
+                <%
+        }
+                }
+            %>
+                </ul>
+                <hr class=" divider" />
+        </div>
+    </section>
+</section>
+
+<script>
+    function addCommaNum(x, y) {
+        var target = document.getElementById(y);
+        var num = parseInt(x).toLocaleString();
+        target.innerText = num + '원';
+    }
+
+    '<% for (var i = 0; i < prodData.length; i++) { %>'
+    addCommaNum('<%=prodData[i][6]%>', 'prod<%=i%>');
+    '<%}%>'
+</script>
+
+
+<%- include ('../foot')%>

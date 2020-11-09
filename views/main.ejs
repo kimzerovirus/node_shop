@@ -1,0 +1,92 @@
+<%- include ('./top')%>
+<%- include ('./nav')%>
+<article class="slider img-wrap">
+    <img src="/images/top0713pc.jpg" alt="main-slide">
+</article>
+
+<!--
+<section class="content">
+    <section class="product-section">
+        <div class="container">
+            <h2 class="sec-tit">NEW ARRIVALS</h2>
+            <hr class="divider" />
+            <ul class="product-list clfix">
+                <li><a href=""><img src="/images/products/1.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/2.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/3.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/4.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/5.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/6.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/7.png" alt=""></a></li>
+                <li><a href=""><img src="/images/products/8.png" alt=""></a></li>
+            </ul>
+            <hr class="divider" />
+        </div>
+    </section>
+    <section class="promotion-banner img-wrap">
+        <div class="container">
+            <a href=""><img class="banner-img" src="/images/banner.png" alt=""></a>
+        </div>
+    </section>
+
+    <section class="product-section">
+        <div class="container">
+            <h2 class="sec-tit">BEST ITEM</h2>
+            <hr class="divider" />
+            <ul class="product-list clfix">
+                <li><a href=""><img src="images/products/1.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/2.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/3.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/4.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/5.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/6.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/7.png" alt=""></a></li>
+                <li><a href=""><img src="images/products/8.png" alt=""></a></li>
+            </ul>
+            <hr class="divider" />
+        </div>
+    </section>
+</section>
+
+-->
+<section class="content">
+    <section class="product-section">
+        <div class="container">
+            <h2 class="sec-tit">BEST ITEM</h2>
+            <hr class="divider" />
+            <ul class="product-list clfix">
+                <%if(prodData==null){
+                %>
+                <h1>상품이 없습니다.</h1>
+                <%
+            }else{
+                for(var i=0;i<prodData.length;i++){%>
+                <li><a href="/product/<%=prodData[i][0]%>"><img src="/images/products/<%=prodData[i][3]%>"
+                            alt="<%=prodData[i][9]%>"></a>
+                    <h3 class="prod_tit"><%=prodData[i][2]%></h3><span class="prod_price"
+                        id="prod<%=i%>"></span><br><br><br>
+                </li>
+                <%
+        }
+                }
+            %>
+            </ul>
+            <hr class=" divider" />
+        </div>
+    </section>
+</section>
+
+<script>
+    function addCommaNum(x, y) {
+        var target = document.getElementById(y);
+        var num = parseInt(x).toLocaleString();
+        target.innerText = num + '원';
+    }
+
+    '<% for (var i = 0; i < prodData.length; i++) { %>'
+    addCommaNum('<%=prodData[i][6]%>', 'prod<%=i%>');
+    '<%}%>'
+</script>
+
+
+<%- include ('./foot')%>

@@ -1,0 +1,208 @@
+<%- include ('../top') %>
+<%- include ('../nav')%>
+
+<link rel="stylesheet" href="/css/join.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    /* 아이디 중복체크 팝업창 열기 함수 */
+    var win = null;
+    /*
+    function openWin() {
+        f.flag.value = "false";
+        win=window.open("idCheck.do", "idCheck", "width=400, height=400, left=100, top=100");
+    }
+    */
+
+    function openPost() {
+        win = window.open("postCheck.do", "postCheck", "width=500, height=500, left=100, top=100");
+    }
+    function check() {
+
+        // 아이디, 비밀번호, hp1, hp2, hp3
+        if (!mf.userid.value) {
+            alert('아이디를 입력하세요');
+            mf.userid.focus();
+            return;
+        }
+        if (!mf.pwd.value) {
+            alert('비밀번호를 입력하세요');
+            mf.pwd.focus();
+            return;
+        }
+        if (!mf.pwd2.value) {
+            alert('비밀번호확인을 입력하세요');
+            mf.pwd2.focus();
+            return;
+        }
+        if (!mf.name.value) {
+            alert('이름을 입력하세요');
+            mf.name.focus();
+            return;
+        }
+        mf.submit();
+
+    }
+    //max-length check
+
+
+
+    function maxLengthCheck(object) {
+        if (object.value.length > object.maxLength) {
+            object.value = object.value.slice(0, object.maxLength);
+        }
+    }
+    function pwdCheck() {
+        if (mf.pwd.value != mf.pwd2.value) {
+            $('#pwdMsg').text("비밀번호와 비밀번호 확인이 일치하지 않습니다");
+            mf.pwd.focus();
+        } else {
+            $('#pwdMsg').text("");
+        }
+    }
+
+    function idCheck() {
+        //사용자가 입력한 userid
+        var uid = $('#user_id').val();
+        //alert(uid);
+        $.ajax({
+            type: 'get',
+            url: "/idcheck?userid=" + uid,
+            dataType: 'json',
+            cache: false,
+            success: function (res) {
+                //alert(JSON.stringify(res));
+                $('#idMsg').removeClass('text-danger').removeClass('text-success');
+                if (res.isUse == true) {
+                    $('#idMsg').text(res.userid + " 는 사용 가능합니다.").addClass('text-success');
+                } else {
+                    $('#idMsg').text(res.userid + " 는 이미 사용 중입니다.");
+                }
+            }, error: function (err) {
+                alert('error: ' + err.status);
+            }
+        })
+    }
+</script>
+
+
+<div class="wrap-bg cfixed" style="margin-top: 80px;">
+    <form name="mf" action="join" method="POST" id="mf" onsubmit="return check()">
+
+
+        <div class="label">아이디
+        </div>
+        <div class="container3">
+            <input type="text" name="userid" id="user_id" placeholder="User ID" onchange="idCheck()">
+        </div>
+
+        <p id="idMsg"></p>
+
+
+        <div class="label">비밀번호</div>
+        <div class="container3">
+            <input type="password" name="pwd" id="user_pwd" placeholder="Password">
+        </div>
+        <p id="pwdMsg"></p>
+
+        <div class="label">비밀번호 확인</div>
+        <div class="container3">
+            <input type="password" name="pwd2" id="check_pwd" placeholder="Password" onchange="pwdCheck()">
+        </div>
+
+        <div class="label">이름</div>
+        <div class="container3">
+            <input type="text" name="name" id="name" placeholder="Name">
+        </div>
+
+        <div class="label">생년월일</div>
+
+        <div class="birth">
+            <div class="birth-div">
+                <input type="number" name="year" id="year" placeholder="년" maxlength="4" oninput="maxLengthCheck(this)">
+            </div>
+            <div class="birth-div">
+                <input type="number" name="month" id="month" placeholder="월" maxlength="2"
+                    oninput="maxLengthCheck(this)">
+            </div>
+            <div class="birth-div-last">
+                <input type="number" name="day" id="day" placeholder="일" maxlength="2" oninput="maxLengthCheck(this)">
+            </div>
+
+        </div>
+
+        <div class="label">성별</div>
+        <div class="container3">
+            <select name="gender" id="gender">
+                <option>성별</option>
+                <option value="남자">남자</option>
+                <option value="여자">여자</option>
+            </select>
+        </div>
+
+        <div class="label">이메일</div>
+        <div class="container3">
+            <input type="email" name="email" id="email" placeholder="Email">
+        </div>
+
+        <div class="label">연락처</div>
+
+        <div class="container2">
+            <div class="hp-box">
+                <input type="number" name="hp" id="hp" placeholder="HP" maxlength="11" oninput="maxLengthCheck(this)">
+            </div>
+            <div class="hp-bt">
+                <button class="btn hp-btn" type="button">인증번호 받기</button>
+            </div>
+        </div>
+
+        <div class="container3 hp-m">
+            <input type="number" name="admit" id="admit" placeholder="인증번호 입력" maxlength="4"
+                oninput="maxLengthCheck(this)">
+        </div>
+
+        <div class="label">
+            <div class="col-md-3 offset-md-4">우편번호</div>
+        </div>
+
+        <div class="container2">
+            <div class="hp-box">
+                <input type="number" name="post" id="post" maxlength="5" placeholder="Post">
+            </div>
+            <div class="hp-bt">
+                <button type="button" onclick="openPost()" class="hp-btn">우편번호 찾기</button>
+            </div>
+        </div>
+
+        <div class="label">주소</div>
+
+        <div class="container3">
+            <input type="text" name="addr1" id="addr1" placeholder="Address1">
+        </div>
+
+
+        <div class="container3 hp-m">
+            <input type="text" name="addr2" id="addr2" placeholder="Address2">
+        </div>
+
+        <div class="label"></div>
+        <div class="btn-container cfixed">
+            <button type="submit" class="join-btn">가입하기</button>
+        </div>
+    </form>
+    <div class="label"></div>
+    <div class="container2 cfixed">
+        <nav class="fNav">
+            <ul>
+                <li><a href="#">저작권정책</a></li>
+                <li><a href="#">개인정보처리방침 </a></li>
+                <li class="last"><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div style="margin-top: 150px;"></div>
+
+<hr class="divider" />
+
+<%- include ('../foot') %>

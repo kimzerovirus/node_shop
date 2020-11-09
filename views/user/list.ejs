@@ -1,0 +1,61 @@
+<%- include ('../top') %>
+<%- include ('../nav') %>
+    <h1 class="text-center mt-5">회원 목록 
+        <span class="badge badge-primary"><%=total%>명</span></h1>
+    <div class="container">
+        <div class="row">
+             <div class=" col-md-10 offset-md-1 mt-3">
+    <table class="table table-striped text-center">
+        <tr>
+            <td>번호</td>
+            <td>이름</td>
+            <td>아이디</td>
+            <td>이메일</td>
+            <td>가입일</td>
+            <td>수정 | 삭제</td>
+        </tr>
+        <%
+            if(parseInt(total)==0){
+                %>
+                <tr><td colspan="5">데이터가 없습니다.</td></tr>
+                <%
+                
+            } else {
+                for(var i=0;i<userData.length;i++){
+
+        %>
+        <tr>
+            <td><%=userData[i][0]%></td>
+            <td><%=userData[i][1]%></td>
+            <td><%=userData[i][2]%></td>
+            <td><%=userData[i][4]%></td>
+            <td><%=userData[i][5]%></td>
+            <td><a href="/users/<%=userData[i][0]%>">수정</a> |
+                <a href="/users/delete/<%=userData[i][0]%>">삭제</a></td>
+        </tr>
+        <%      
+                }
+            }
+        %>
+    </table>
+    <ul class="pagination justify-content-center">
+        <%
+            console.log(pageCount);
+            for(var i=1;i<=parseInt(pageCount);i++){
+
+            
+        %>
+        <li class="page-item <%=(cpage==i)?'active':''%>  ">
+            <a href="/users?cpage=<%=i%>" class="page-link"><%=i%></a>
+        </li>
+        <%
+            }
+        %>        
+
+    </ul>
+</div>
+</div>
+    </div>
+
+
+<%- include ('../foot') %>

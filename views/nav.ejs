@@ -1,0 +1,80 @@
+<ul class="subNav">
+    <li class="search-icon"><button type="button" style="background:#fff"><img src="/images/icon_search_white.svg"
+                alt="" width="16px"></button>
+
+        <div class="search-box">
+            <form action="" name="search">
+                <input id="search-item" type="text" name="search-item" placeholder="아이템을 검색">
+                <button class="searchBt"><img src="/images/icon_search_white.svg" alt="" width="28px"></button>
+            </form>
+        </div>
+
+    </li>
+    <li class="cart"><a href="/cartView"><img src="/images/cart.png" alt="" width="14px" style="opacity: 0.5;"></a>
+        <%if(isLogin){%>
+        <div class="cart-alarm">
+            <p id="cartNum">
+                <%=loginUser.cart%>
+            </p>
+        </div>
+        <%}%>
+    </li>
+    <%
+        if(!isLogin){
+    %>
+    <li class="signUp"><a href="/join">회원가입</a></li>
+    <li class="LogIn"><a href="/login">로그인</a></li>
+    <%
+        }else{
+    %>
+    <li class="LogIn"><a href="/logout">로그아웃</a></li>
+    <li class="signUp"><a href="/mypage"><%=loginUser.userid%>님</a></li>
+    <%
+        }
+    %>
+</ul>
+</div>
+</div>
+<header class="header clfix">
+    <h1 class="logo"><a href="/"><img src="/images/aglogo.jpg" alt="ANDGEEBEE"></a></h1>
+    <nav class="gnb">
+        <div class="gnbBox">
+            <ul class="mainNav">
+                <li><a href="/category/0">OUTER</a></li>
+                <li><a href="/category/1">TOP</a></li>
+                <li><a href="/category/2">BOTTOM</a></li>
+                <li><a href="/category/3">ONE PIECE</a></li>
+                <li><a href="/category/4">ACC</a></li>
+                <li><a href="/category/5">SHOES</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<script>
+    window.addEventListener("load", function (event) {
+        console.log('Hello! ANDGEEBEE');
+        cartCheck();
+    });
+
+    function cartCheck() {
+        var cnum = $('#cartNum').val();
+        '<%if(isLogin){%>'
+        var uid = '<%=loginUser.userid%>';
+        '<%}%>'
+        $.ajax({
+            type: 'get',
+            url: "/cartCheck?userid=" + uid,
+            dataType: 'json',
+            cache: false,
+            success: function (res) {
+                console.log(JSON.stringify(res));
+                console.log(res.cartNum);
+                $('#cartNum').text(res.cartNum);
+            }, error: function (err) {
+                alert('error: ' + err.status);
+            }
+        })
+    }
+</script>

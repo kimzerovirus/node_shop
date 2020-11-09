@@ -1,0 +1,99 @@
+<%- include ('../top')%>
+<%- include ('../nav')%>
+<link rel="stylesheet" href="/css/prodView.css">
+<section class="container clfix">
+    <ul class="category">
+        <li><a href="/">Home</a></li>
+        <li><img src="/images/arrow_icon.png" alt=""></li>
+
+        <li><%if(prodData[0][1]==1){%>
+            <a href="/top">Top</a>
+            <%}else if(prodData[0][1]==2){%>
+            <a href="/bottom">Bottom</a>
+            <%}%>
+        </li>
+        <li><img src="/images/arrow_icon.png" alt=""></li>
+        <li><%=prodData[0][2]%></li>
+    </ul>
+    <div class="gallery clfix">
+        <div id="photo" style="min-height: 578px;">
+            <img id="big" src="/images/products/<%=prodData[0][3]%>" alt="대형사진" />
+        </div>
+
+        <div id="plist">
+            <ul id="inlist">
+                <li><a href="/images/products/<%=prodData[0][3]%>">
+                        <img src="/images/products/<%=prodData[0][3]%>" alt="사진1" /></a></li>
+                <li><a href="/images/products/<%=prodData[0][4]%>">
+                        <img src="/images/products/<%=prodData[0][4]%>" alt="사진2" /></a></li>
+                <li><a href="/images/products/<%=prodData[0][5]%>">
+                        <img src="/images/products/<%=prodData[0][5]%>" alt="사진3" /></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="prod_info">
+        <h1 class="item_name"><%=prodData[0][2]%></h1>
+        <p class="item_price" id="item_price"></p>
+        <p class="item_point" id="item_point"></p>
+        <div class="pcontent_box">
+            <p><%=prodData[0][10]%></p>
+        </div>
+        <form name="frm" id="frm" method="GET" style="padding: 12px;">
+            <input type="hidden" name="pnum" value="<%=prodData[0][0]%>">
+            <input type="hidden" name="idx" value="<%=loginUser.idx%>">
+            <input type="hidden" name="userid" value="<%=loginUser.userid%>">
+            <label for="oqty">상품 총 수량 : </label>
+            <input type="number" name="oqty" id="oqty" min="1" max="50" size="2" value="1">
+        </form>
+        <button type="button" class="btn color">바로구매</button>
+        <button type="button" class="btn" onclick="goCart()">장바구니</button>
+    </div>
+</section>
+
+
+
+<script>
+    window.onload = function () {
+        var cnt = 0;
+        var aList = document.getElementById('inlist').getElementsByTagName("a");
+
+        var bigImg = document.getElementById('big');
+
+        for (var i = 0; i < aList.length; i++) {
+            aList[i].onmouseenter = function (evt) {
+                evt.preventDefault();
+                var ahref = this.href;
+                bigImg.src = ahref;
+                var parent = this.parentNode;
+                var num = getIndex(parent);
+                cnt = num;
+            }
+
+            aList[i].onclick = function (evt) {
+                evt.preventDefault();
+                var ahref = this.href;
+                bigImg.src = ahref;
+            }
+        }
+    }
+
+
+    function addCommaNum(x, y, z) {
+        var target = document.getElementById(y);
+        var num = parseInt(x).toLocaleString();
+        target.innerText = num + z;
+    }
+
+    addCommaNum('<%=prodData[0][6]%>', 'item_price', '원');
+    addCommaNum('<%=prodData[0][8]%>', 'item_point', ' point');
+
+
+    var goCart = function () {
+        // alert('장바구니 추가');
+        frm.action = "/addCart";
+        frm.method = 'POST';
+        frm.submit();
+    } 
+</script>
+
+<%- include ('../foot')%>
