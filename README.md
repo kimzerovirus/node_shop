@@ -12,3 +12,4 @@
 2020.11.7 ~ 2020.11.9
 -장바구니 기능을 구현하였습니다.
 
+![개요](https://user-images.githubusercontent.com/68390715/108990761-a4841600-76da-11eb-9f23-ef5c4758a080.png)
